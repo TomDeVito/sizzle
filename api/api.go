@@ -1,8 +1,9 @@
 package api
 
-import "net/http"
+import (
+	"github.com/tomdevito/sizzle/app"
+)
 
-type APIHandler interface {
-	LoadAPIHandler() http.Handler
-	GetAPIHandlerParentRoute() string
+type API struct {
+	App *app.App
 }

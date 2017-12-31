@@ -5,44 +5,31 @@ import (
 	"net/http"
 
 	"github.com/go-chi/chi"
-	"github.com/tomdevito/sizzle/service"
 )
 
 const SMOKE_PARENT_ROUTE = "/smoke"
 
-type SmokeAPI struct {
-	service *service.SmokeService
-}
-
-func NewSmokeAPI(service *service.SmokeService) *SmokeAPI {
-	return &SmokeAPI{
-		service: service,
-	}
-}
-
-func (sr *SmokeAPI) LoadAPIHandler() http.Handler {
+func (api *API) LoadAPIHandler() http.Handler {
 	r := chi.NewRouter()
-	r.Get("/", sr.getSmokes)
-	r.Post("/", sr.CreateSmoke)
+	r.Get("/", api.getSmoke)
+	r.Post("/", api.createSmoke)
 	r.Route("/{smokeID}", func(r chi.Router) {
-		r.Get("/", sr.getSmoke)
+		r.Get("/", api.getSmoke)
 	})
 
 	return r
 }
 
-func (sr *SmokeAPI) GetAPIHandlerParentRoute() string {
-	return SMOKE_PARENT_ROUTE
+func (api *API) getSmoke(w http.ResponseWriter, r *http.Request) {
+	_, _ = api.App.CreateSmoke(nil)
+	w.Write([]byte(fmt.Sprintf("title:%d", 123)))
 }
 
-func (sr *SmokeAPI) getSmoke(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte(fmt.Sprintf("title:%d", sr.service)))
+func (api *API) getSmokes(w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte(fmt.Sprintf("title:%d", 123)))
 }
 
-func (sr *SmokeAPI) getSmokes(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte(fmt.Sprintf("title:%d", sr.service)))
-}
-func (sr *SmokeAPI) CreateSmoke(w http.ResponseWriter, r *http.Request) {
+func (api *API) createSmoke(w http.ResponseWriter, r *http.Request) {
 	// Validate Incoming smoke
 
 	// save smoke

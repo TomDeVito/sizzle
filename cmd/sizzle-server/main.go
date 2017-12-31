@@ -5,15 +5,13 @@ import (
 	"net/http"
 
 	"github.com/go-chi/chi"
-	"github.com/tomdevito/sizzle/api"
-	"github.com/tomdevito/sizzle/service"
-	"github.com/tomdevito/sizzle/store/sqlstore"
 )
 
 func main() {
+	//configure / create app
+
 	r := setupRouter()
 	log.Fatal(http.ListenAndServe(":8080", r))
-
 }
 
 func setupRouter() http.Handler {
@@ -23,13 +21,9 @@ func setupRouter() http.Handler {
 		w.Write([]byte("hello"))
 	})
 
-	smokeAPI := api.NewSmokeAPI(
-		service.NewSmokeService(
-			sqlstore.NewSmokeStore(nil),
-		),
-	)
+	// mount router from api package
 
-	r.Mount(smokeAPI.GetAPIHandlerParentRoute(), smokeAPI.LoadAPIHandler())
+	//r.Mount(smokeAPI.GetAPIHandlerParentRoute(), )
 
 	return r
 }
