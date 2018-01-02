@@ -7,3 +7,9 @@ import (
 type API struct {
 	App *app.App
 }
+
+func NewAPI(app *app.App) *API {
+	return &API{
+		App: app,
+	}
+}

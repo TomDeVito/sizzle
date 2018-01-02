@@ -6,6 +6,6 @@ import (
 )
 
 type App struct {
-	Store   store.Store
-	Metrics provider.Provider
+	Store  store.Store
+	Metric provider.Provider
 }

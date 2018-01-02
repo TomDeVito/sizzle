@@ -7,11 +7,11 @@ import (
 	"github.com/go-chi/chi"
 )
 
-const SMOKE_PARENT_ROUTE = "/smoke"
+const SmokeParentRoute = "/smoke"
 
-func (api *API) LoadAPIHandler() http.Handler {
+func (api *API) LoadSmokeHandler() http.Handler {
 	r := chi.NewRouter()
-	r.Get("/", api.getSmoke)
+	r.Get("/", api.getSmokes)
 	r.Post("/", api.createSmoke)
 	r.Route("/{smokeID}", func(r chi.Router) {
 		r.Get("/", api.getSmoke)

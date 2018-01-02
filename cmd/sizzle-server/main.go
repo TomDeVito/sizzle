@@ -5,25 +5,24 @@ import (
 	"net/http"
 
 	"github.com/go-chi/chi"
+	"github.com/go-kit/kit/metrics/provider"
+	"github.com/tomdevito/sizzle/api"
+	"github.com/tomdevito/sizzle/app"
+	"github.com/tomdevito/sizzle/store"
 )
 
 func main() {
 	//configure / create app
+	app := &app.App{
+		Store:  &store.SimpleStore{},
+		Metric: provider.NewDiscardProvider(),
+	}
 
-	r := setupRouter()
-	log.Fatal(http.ListenAndServe(":8080", r))
-}
+	api := api.NewAPI(app)
 
-func setupRouter() http.Handler {
-
+	// api will contain complete handler to mount onto
 	r := chi.NewRouter()
-	r.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("hello"))
-	})
+	r.Mount("/smoke", api.LoadSmokeHandler())
 
-	// mount router from api package
-
-	//r.Mount(smokeAPI.GetAPIHandlerParentRoute(), )
-
-	return r
+	log.Fatal(http.ListenAndServe(":8080", r))
 }
