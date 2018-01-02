@@ -9,7 +9,7 @@ import (
 
 const SmokeParentRoute = "/smoke"
 
-func (api *API) LoadSmokeHandler() http.Handler {
+func (api *API) loadSmokeHandler() http.Handler {
 	r := chi.NewRouter()
 	r.Get("/", api.getSmokes)
 	r.Post("/", api.createSmoke)
@@ -35,5 +35,4 @@ func (api *API) createSmoke(w http.ResponseWriter, r *http.Request) {
 	// save smoke
 
 	// (model) api -> (model) service --> datastore
-
 }
